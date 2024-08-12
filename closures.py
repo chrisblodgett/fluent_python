@@ -1,4 +1,5 @@
 # Closures are functions that retain the bindings of the free variables that exist when the function is defined,
+# this was from the chapter on decorators
 
 
 def make_averager():
