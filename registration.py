@@ -1,3 +1,5 @@
+""" a module to demonstrate function registration using decorators """
+
 registry = set()
 
 
