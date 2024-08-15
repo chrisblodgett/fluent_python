@@ -8,7 +8,7 @@ from array import array
 
 
 class Vector2d:
-    typecode = 'd'
+    typecode = 'd'  # default type code, 8 byte double precision float
 
     __match_args__ = (
         'x',
@@ -56,14 +56,18 @@ class Vector2d:
         return (i for i in (self.x, self.y))
 
     def __repr__(self):
-        class_name = type(self).__name__
+        class_name = type(
+            self
+        ).__name__  # by doing it like this it allows sublcasses to also use this repr
         return '{}({!r}, {!r})'.format(class_name, *self)
 
     def __str__(self):
         return str(tuple(self))
 
     def __bytes__(self):
-        return bytes([ord(self.typecode)]) + bytes(array(self.typecode, self))
+        return bytes([ord(self.typecode)]) + bytes(
+            array(self.typecode, self)
+        )  # we use the class attribute typecode to provide a default value
 
     def __eq__(self, other):
         return tuple(self) == tuple(other)
@@ -84,12 +88,16 @@ print(v1, v2)
 print(repr(v1))
 print(v1 == [1, 0])
 print(format(v1, '.3e'))  # this owkr sbecause we dfined the __format__
-print('hash- ', hash(v1))
+print(bytes(v1))
+Vector2d.typecode = 'f'
+print(
+    bytes(v1)
+)  # this is now using a different output format f so it's shorter (9 bytes long)
 
 
 def keyword_pattern_demo(v: Vector2d) -> None:
     match v:
-        case Vector2d(x=0, y=0):
+        case Vector2d(x=0, y=0):  # use keyword pattern
             print(f'{v!r} is null')
         case Vector2d(x=x, y=y) if x == y:
             print(f'{v!r} is diagonol')
@@ -99,13 +107,9 @@ def keyword_pattern_demo(v: Vector2d) -> None:
 
 def positional_pattern_demo(v: Vector2d) -> None:
     match v:
-        case Vector2d(0, 0):
+        case Vector2d(0, 0):  # use positional pattern
             print(f'{v!r} is null')
         case Vector2d(x, y) if x == y:
             print(f'{v!r} is diagonol')
         case _:
             print(f'{v!r} is awesome')
-
-
-print(keyword_pattern_demo(v3))
-print(keyword_pattern_demo(v4))
