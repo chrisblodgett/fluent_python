@@ -6,8 +6,12 @@ from typing import Callable
 
 from pattern_strategy_functions import Customer, LineItem, Order
 
-Promotion = Callable[[Order], 'Decimal']
-promos: list[Promotion] = []
+Promotion = Callable[
+    [Order], 'Decimal'
+]  # this defines basically a type that stands for the promo functions
+promos: list[Promotion] = (
+    []
+)  # a list of callable types that take Order objects adn return decimals
 
 
 def promotion(promo: Promotion) -> Promotion:
@@ -45,5 +49,5 @@ ming = Customer('ming', 1000)
 cart = [LineItem('orange', 30, Decimal('1.0'))]
 cart2 = [LineItem('banana', 22, Decimal(0.5)), LineItem('orange', 8, Decimal('1.5'))]
 
-order1 = Order(ming, cart, best_promo)
+order1 = Order(ming, cart, best_promo)  # use best promo to pick from in the promots
 print(order1)

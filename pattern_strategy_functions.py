@@ -1,6 +1,5 @@
 """Implementing the classic Strategy Design Pattern using Functions and Decorators, rather than classes and objects"""
 
-from abc import abstractmethod
 from collections.abc import Sequence
 from decimal import Decimal
 from typing import Callable  # optional is the same as Union[x, None]
